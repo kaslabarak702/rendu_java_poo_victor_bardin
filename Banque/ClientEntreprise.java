@@ -1,16 +1,21 @@
 package Banque;
 
 public class ClientEntreprise extends Client {
-    private String numeroEntreprise;
+    private int numeroEntreprise;
     private String secteurActivite;
 
-    public ClientEntreprise(String nom, String adresse, String numeroEntreprise, String secteurActivite, String mail) {
+    public ClientEntreprise(
+            String nom,
+            String adresse,
+            int numeroEntreprise,
+            String secteurActivite,
+            String mail) {
         super(nom, adresse, mail);
         this.numeroEntreprise = numeroEntreprise;
         this.secteurActivite = secteurActivite;
     }
 
-    public String getNumeroEntreprise() {
+    public int getNumeroEntreprise() {
         return numeroEntreprise;
     }
 

@@ -1,17 +1,17 @@
 package Banque;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Banque {
     private String nom;
-    private ArrayList<Client> clients;
+    ArrayList<Client> clients;
     private ArrayList<Compte> comptes;
 
     public Banque(String nom) {
         this.nom = nom;
         this.clients = new ArrayList<Client>();
         this.comptes = new ArrayList<Compte>();
-        this.clients = new ArrayList<>();
     }
 
     public String getNom() {
@@ -37,6 +37,7 @@ public class Banque {
     public void ouvrirCompte(Client client, double solde) {
         Compte compte = new Compte(client);
         compte.crediter(solde);
+        this.comptes.add(compte);
     }
 
     public void fermerCompte(Client client, Compte compte) {
@@ -51,31 +52,22 @@ public class Banque {
         }
     }
 
+    public ArrayList<Compte> getComptes() {
+        return comptes;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        int index = 0;
-        sb.append("Banque: ")
-                .append(nom)
-                .append("\n")
-                .append("Clients:");
+        sb.append("\n" + nom).append("\n\n");
         for (Client client : clients) {
-            sb.append(client).append("\n");
-            index++;
-        }
-        if (index == 0) {
-            sb.append(" aucun");
+            sb.append("    ").append(client.toString()).append("\n");
         }
         sb.append("\n");
-        index = 0;
-        sb.append("Comptes:");
         for (Compte compte : comptes) {
-            index++;
-            sb.append(compte).append("\n");
+            sb.append("    ").append(compte.toString()).append("\n");
         }
-        if (index == 0) {
-            sb.append(" aucun");
-        }
-        sb.append("\n");
         return sb.toString();
     }
+
 }

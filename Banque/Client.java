@@ -2,7 +2,7 @@ package Banque;
 
 import java.util.UUID;
 
-public abstract class Client {
+public class Client {
     private final UUID id;
     private String nom;
     private String adresse;
@@ -37,24 +37,49 @@ public abstract class Client {
 
     @Override
     public String toString() {
-        String toReturn = "id=" + getId() +
-                ", nom=" + getNom() +
-                ", adresse=" + getAdresse() +
-                ", email=" + getEmail();
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("nom: ").append(nom).append(", ");
+        sb.append("adresse: ").append(adresse).append(", ");
+        sb.append("email: ").append(email).append(", ");
 
         if (this instanceof ClientParticulier) {
-            toReturn += ", prenom=" + ((ClientParticulier) this).getPrenom() +
-                    ", profession=" + ((ClientParticulier) this).getProfession() +
-                    ", salaire=" + ((ClientParticulier) this).getSalaire();
+            ClientParticulier cp = (ClientParticulier) this;
+            sb.append("prenom: ").append(cp.getPrenom()).append(", ");
+            sb.append("profession: ").append(cp.getProfession()).append(", ");
+            sb.append("salaire: ").append(cp.getSalaire());
         } else {
-            toReturn += ", numeroEntreprise=" + ((ClientEntreprise) this).getNumeroEntreprise() +
-                    ", secteurActivite=" + ((ClientEntreprise) this).getSecteurActivite();
+            ClientEntreprise ce = (ClientEntreprise) this;
+            sb.append("numeroEntreprise: ").append(ce.getNumeroEntreprise()).append(", ");
+            sb.append("secteurActivite: ").append(ce.getSecteurActivite());
         }
-        return toReturn;
+
+        return sb.toString();
     }
 
-    private String getEmail() {
-        return this.email;
+    public String toJSON(boolean idOnly) {
+        StringBuilder sb = new StringBuilder("{");
+        if (!idOnly) {
+            sb.append("\"id\": \"").append(id).append("\", ");
+            sb.append("\"nom\": \"").append(nom).append("\", ");
+            sb.append("\"adresse\": \"").append(adresse).append("\", ");
+            sb.append("\"email\": \"").append(email).append("\", ");
+            if (this instanceof ClientParticulier) {
+                ClientParticulier cp = (ClientParticulier) this;
+                sb.append("\"prenom\": \"").append(cp.getPrenom()).append("\", ");
+                sb.append("\"profession\": \"").append(cp.getProfession()).append("\", ");
+                sb.append("\"salaire\": ").append(cp.getSalaire());
+            } else {
+                ClientEntreprise ce = (ClientEntreprise) this;
+                sb.append("\"numeroEntreprise\": \"").append(ce.getNumeroEntreprise()).append("\", ");
+                sb.append("\"secteurActivite\": \"").append(ce.getSecteurActivite()).append("\"");
+            }
+
+        } else {
+            sb.append("\"id\": \"").append(id).append("\"");
+        }
+        sb.append("}");
+        return sb.toString();
     }
 
 }

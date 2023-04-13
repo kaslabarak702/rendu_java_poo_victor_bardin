@@ -86,8 +86,12 @@ public class StringUtils {
      * @param titreValeur la valeur a demander (ex "la hauteur")
      * @return l'entier vérifié
      */
-    public static int demanderEntierUtilisateur(String titreValeur) {
-        System.out.print("\nChoisissez " + titreValeur + ", valeur entière et positive : ");
+    public static int demanderEntierUtilisateur(String titreValeur, boolean messageDefaut) {
+        if (messageDefaut) {
+            System.out.print("Choisissez " + titreValeur + ", valeur entière et positive : ");
+        } else {
+            System.out.print(titreValeur);
+        }
         boolean validNumber = false;
         Scanner scanner = new Scanner(System.in);
         int number = -1;
@@ -97,14 +101,19 @@ public class StringUtils {
                 number = Integer.parseInt(scanner.next());
                 validNumber = true;
             } catch (Exception e) {
-                System.out.println("Entrez un nombre entier valide : "); // gestion des erreurs utilisateur
+                // System.out.print("\nEntrez un nombre entier valide : "); // gestion des
+                // erreurs utilisateur
             }
         }
         return number;
     }
 
-    public static String demanderTexteUtilisateur(String titreValeur) {
-        System.out.print("\nChoisissez " + titreValeur + " : ");
+    public static String demanderTexteUtilisateur(String titreValeur, boolean messageDefaut) {
+        if (messageDefaut) {
+            System.out.print("Choisissez " + titreValeur + " : ");
+        } else {
+            System.out.print(titreValeur);
+        }
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }

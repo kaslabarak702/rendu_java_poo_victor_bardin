@@ -42,4 +42,18 @@ public class Compte {
             return false;
         }
     }
+
+    public String toString() {
+        return "Compte [" + "solde=" + solde + ", client=" + client.getNom() + "]";
+    }
+
+    public String toJSON() {
+        StringBuilder sb = new StringBuilder("{");
+        sb.append("\"id\": \"").append(id).append("\", ");
+        sb.append("\"solde\": ").append(solde).append(", ");
+        sb.append("\"client\": ").append(client.toJSON(true));
+        sb.append("}");
+        return sb.toString();
+    }
+
 }

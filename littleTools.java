@@ -45,14 +45,8 @@ public class littleTools {
                 " Faire une simulation de banque",
                 "Ouvrir un éditeur de texte"));
 
-        System.out.println(menu.toString());
-
-        int choix = -1;// le choix utilisateur dans le menu
-        while (choix < 1 || choix > menu.options.size()) {
-            choix = StringUtils.demanderEntierUtilisateur("une option");
-        }
-
-        switch (choix) {
+        System.out.print(menu.toString());
+        switch (menu.choix()) {
             case 1:
                 StringUtils.renverserChaineCaracteres();
                 finModule();
@@ -107,11 +101,12 @@ public class littleTools {
      */
     private static void nombreJuste() {
         int tentative = 0; // le nombre de tentatives effectives
-        int nombreEssais = StringUtils.demanderEntierUtilisateur("le nombre d'essais"); // le nombre de tentatives max
+        int nombreEssais = StringUtils.demanderEntierUtilisateur("le nombre d'essais", true); // le nombre de tentatives
+                                                                                              // max
         boolean trouve = false;
 
         // choix de la borne max
-        int max = StringUtils.demanderEntierUtilisateur("la difficulté");
+        int max = StringUtils.demanderEntierUtilisateur("la difficulté", true);
         int nombreAleatoire = (int) (Math.random() * max);
 
         // début du jeu
@@ -121,7 +116,7 @@ public class littleTools {
 
         while (tentative < nombreEssais && !trouve) {
             System.out.print("Tentative n°" + (tentative + 1) + ": ");
-            int nombreDevine = StringUtils.demanderEntierUtilisateur("un nombre");
+            int nombreDevine = StringUtils.demanderEntierUtilisateur("un nombre", true);
 
             if (nombreDevine == nombreAleatoire) {
                 System.out.println("Félicitations, vous avez trouvé le nombre!");
@@ -147,7 +142,7 @@ public class littleTools {
      * @see demanderEntierUtilisateur
      */
     private static void pairImpairPremier() {
-        int nombre = StringUtils.demanderEntierUtilisateur("un nombre");
+        int nombre = StringUtils.demanderEntierUtilisateur("un nombre", true);
         if (nombre % 2 == 0) {
             System.out.println(nombre + " est pair"); // aucun nombre pair n'est premier
         } else {
@@ -180,7 +175,7 @@ public class littleTools {
      * Calcule une somme de 1 à un chiffre rentré par l'utilisateur
      */
     private static void calculerUneSomme() {
-        int borneHaute = StringUtils.demanderEntierUtilisateur("la borne haute");
+        int borneHaute = StringUtils.demanderEntierUtilisateur("la borne haute", true);
         int somme = borneHaute * (borneHaute + 1) / 2; // la somme des premiers entiers
         System.out.println("La somme des nombres de 1 à " + borneHaute + " est : " + somme); // résultat
         finModule();
@@ -194,7 +189,7 @@ public class littleTools {
         double probaGuirlande = 0.33; // probabilité qu'une guirlande apparaisse
         Random r = new Random(); // on génère aléatoirement des caractères
         System.out.println("Quelle hauteur de pyramide souhaitez vous?");
-        hauteur = StringUtils.demanderEntierUtilisateur("une hauteur valide") + 1;
+        hauteur = StringUtils.demanderEntierUtilisateur("une hauteur valide", true) + 1;
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < (hauteur - i) - 1; j++) {
                 System.out.print(" ");
@@ -228,7 +223,7 @@ public class littleTools {
      * termine l'éxécution
      */
     public static void continueGame() {
-        String choix = StringUtils.demanderTexteUtilisateur("vous de revenir au menu?");
+        String choix = StringUtils.demanderTexteUtilisateur("vous de revenir au menu?", true);
         if (choix.equalsIgnoreCase("")
                 || choix.equalsIgnoreCase("o")
                 || choix.equalsIgnoreCase("oui")) {

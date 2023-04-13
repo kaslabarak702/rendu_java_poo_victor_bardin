@@ -5,6 +5,16 @@ public class ClientParticulier extends Client {
     private double salaire;
     private String prenom;
 
+    /**
+     * 
+     * @param nom
+     * @param prenom
+     * @param age
+     * @param adresse
+     * @param email
+     * @param profession
+     * @param salaire
+     */
     public ClientParticulier(String nom, String prenom, int age, String adresse, String email, String profession,
             double salaire) {
         super(nom, adresse, email);
