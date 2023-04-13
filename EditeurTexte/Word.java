@@ -62,6 +62,58 @@ public class Word extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    // gestion de tous les événements de la fenetres
+    public void actionPerformed(ActionEvent event) {
+        if (event.getSource() == nouveauFichier) {
+            textArea.setText("");
+            fileName = null;
+        } else if (event.getSource() == ouvrirFichier) {
+            int returnVal = fileChooser.showOpenDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                try {
+                    java.io.File file = fileChooser.getSelectedFile();
+                    java.io.FileReader fr = new java.io.FileReader(file);
+                    textArea.read(fr, null);
+                    fr.close();
+                    fileName = file.getName();
+                    setTitle(fileName);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Erreur lors du chargement du fichier : " + e.getMessage());
+                }
+            }
+        } else if (event.getSource() == sauverFichier || event.getSource() == boutonSauvegarde) {
+            if (fileName == null) {
+                // affichage assistant
+                int returnVal = fileChooser.showSaveDialog(this);
+
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        File file = fileChooser.getSelectedFile();
+                        FileWriter fw = new FileWriter(file);
+                        textArea.write(fw);
+                        fw.close();
+                        fileName = file.getName();
+                        setTitle(fileName);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this,
+                                "Erreur lors de l'enregistrement du fichier : " + e.getMessage());
+                    }
+                }
+            } else {
+                try {
+                    java.io.FileWriter fw = new FileWriter(fileName);
+                    textArea.write(fw);
+                    fw.close();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this,
+                            "Erreur lors de l'enregistrement du fichier : " + e.getMessage());
+                }
+            }
+        } else if (event.getSource() == exit) {
+            System.exit(0);
+        }
+    }
+
     public static void launchWord() {
         new Word();
     }
