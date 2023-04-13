@@ -1,7 +1,6 @@
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Random;
-import java.util.Scanner;
 
 import Banque.AppBanque;
 import EditeurTexte.Word;
@@ -34,15 +33,16 @@ public class littleTools {
 
         // affichage du menu
         Menu menu = new Menu("Bonjour ! Que souhaitez-vous faire ?", new LinkedList<>());
-        menu.options.addAll(Arrays.asList("Renverser une chaîne de caractères",
-                "Afficher une pyramide",
-                "Calculer la somme des nombres de 1 à x",
-                "Vérifier si un nombre est pair, impair ou premier",
+        menu.options.addAll(Arrays.asList(
+                " Renverser une chaîne de caractères",
+                " Afficher une pyramide",
+                " Calculer la somme des nombres de 1 à x",
+                " Vérifier si un nombre est pair, impair ou premier",
                 " Jouer au juste nombre (trouver le nombre choisi par l'ordinateur)",
-                "Compter le nombre de mots dans une phrase",
+                " Compter le nombre de mots dans une phrase",
                 " Sauvegarder une phrase dans un fichier",
-                "Lire du texte d'un fichier pour y compter les mots",
-                "Faire une simulation de banque",
+                " Lire du texte d'un fichier pour y compter les mots",
+                " Faire une simulation de banque",
                 "Ouvrir un éditeur de texte"));
 
         System.out.println(menu.toString());
@@ -108,34 +108,36 @@ public class littleTools {
     private static void nombreJuste() {
         int tentative = 0; // le nombre de tentatives effectives
         int nombreEssais = StringUtils.demanderEntierUtilisateur("le nombre d'essais"); // le nombre de tentatives max
-        boolean found = false;
-        System.out.println("Bienvenue dans Complète Nombre Juste! Vous avez " + nombreEssais + " essais");
+        boolean trouve = false;
 
         // choix de la borne max
         int max = StringUtils.demanderEntierUtilisateur("la difficulté");
         int nombreAleatoire = (int) (Math.random() * max);
 
         // début du jeu
-        System.out.println("Le nombre à deviner est compris entre 0 et " + max + ".");
+        System.out.println("Bienvenue dans Complète Nombre Juste! Vous avez " + nombreEssais + " essais");
+        System.out.println("Le nombre à deviner est compris entre 0 et " + max);
         System.out.println("Vous avez " + nombreEssais + " tentatives pour le deviner.");
 
-        while (tentative < nombreEssais && !found) {
+        while (tentative < nombreEssais && !trouve) {
             System.out.print("Tentative n°" + (tentative + 1) + ": ");
             int nombreDevine = StringUtils.demanderEntierUtilisateur("un nombre");
 
             if (nombreDevine == nombreAleatoire) {
-                System.out.println("Félicitations, vous avez deviné le nombre!");
-                found = true;
+                System.out.println("Félicitations, vous avez trouvé le nombre!");
+                trouve = true;
             } else if (nombreDevine > nombreAleatoire) {
-                System.out.println("Le nombre est plus petit que " + nombreDevine + ".");
+                System.out.println("Le nombre est plus petit que " + nombreDevine);
             } else {
-                System.out.println("Le nombre est plus grand que " + nombreDevine + ".");
+                System.out.println("Le nombre est plus grand que " + nombreDevine);
             }
             tentative++;
         }
 
-        System.out.println("Désolé, vous n'avez pas deviné le nombre en moins de " + nombreEssais + ". Le nombre était "
-                + nombreAleatoire + ".");
+        if (!trouve)
+            System.out.println(
+                    "Désolé, vous n'avez pas deviné le nombre en moins de " + nombreEssais + ". Le nombre était "
+                            + nombreAleatoire);
         finModule();
     }
 
@@ -189,6 +191,7 @@ public class littleTools {
      */
     private static void afficherPyramide() {
         int hauteur = 1; // hauteur de la pyramide en nombre de lignes
+        double probaGuirlande = 0.33; // probabilité qu'une guirlande apparaisse
         Random r = new Random(); // on génère aléatoirement des caractères
         System.out.println("Quelle hauteur de pyramide souhaitez vous?");
         hauteur = StringUtils.demanderEntierUtilisateur("une hauteur valide") + 1;
@@ -196,12 +199,19 @@ public class littleTools {
             for (int j = 0; j < (hauteur - i) - 1; j++) {
                 System.out.print(" ");
             }
-            for (int k = 1; k <= 2 * i - 1; k++) {
-                System.out.print((char) (r.nextInt(26) + 'a'));
+            if (Math.random() > probaGuirlande) {
+                for (int k = 1; k <= 2 * i - 1; k++) {
+                    System.out.print((char) (r.nextInt(26) + 'a'));
+                }
+            } else {
+                for (int k = 1; k <= 2 * i - 1; k++) {
+                    System.out.print("*+");
+                }
             }
             System.out.println();
         }
         System.out.println();
+
         finModule();
     }
 
