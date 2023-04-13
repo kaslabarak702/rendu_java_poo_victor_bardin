@@ -1,14 +1,10 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
 import Banque.AppBanque;
+import Utils.Menu;
 import Utils.StringUtils;
 
 /**
@@ -21,7 +17,6 @@ import Utils.StringUtils;
  */
 public class littleTools {
     private static boolean gameOn = true; // conditionne l'arrêt du programme
-    final static int NOMBRE_OPTIONS_MENU = 9;
 
     public static void main(String[] args) {
         startMenu(gameOn);
@@ -37,31 +32,28 @@ public class littleTools {
         }
 
         // affichage du menu
-        StringBuilder menu = new StringBuilder();
-        menu.append("\n")
-                .append("Bonjour ! Que souhaitez-vous faire ?\n")
-
-                .append("1 -> Renverser une chaîne de caractères\n")
-                .append("2 -> Afficher une pyramide\n")
-                .append("3 -> Calculer la somme des nombres de 1 à x\n")
-                .append("4 -> Vérifier si un nombre est pair, impair ou premier\n")
-                .append("5 -> Jouer au juste nombre (trouver le nombre choisi par l'ordinateur)\n")
-                .append("6 -> Compter le nombre de mots dans une phrase\n")
-                .append("7 -> Sauvegarder une phrase dans un fichier\n")
-                .append("8 -> Lire du texte d'un fichier pour y compter les mots\n")
-                .append("9 -> Faire une simulation de banque\n")
-
-                .append("Entrez le chiffre correspondant à votre choix entre 1 et " + NOMBRE_OPTIONS_MENU + ":");
+        Menu menu = new Menu("Bonjour ! Que souhaitez-vous faire ?", new LinkedList<>());
+        menu.options.addAll(Arrays.asList("Renverser une chaîne de caractères",
+                "Afficher une pyramide",
+                "Calculer la somme des nombres de 1 à x",
+                "Vérifier si un nombre est pair, impair ou premier",
+                " Jouer au juste nombre (trouver le nombre choisi par l'ordinateur)",
+                "Compter le nombre de mots dans une phrase",
+                " Sauvegarder une phrase dans un fichier",
+                "Lire du texte d'un fichier pour y compter les mots",
+                "Faire une simulation de banque"));
 
         System.out.println(menu.toString());
+
         int choix = -1;// le choix utilisateur dans le menu
-        while (choix < 1 || choix > NOMBRE_OPTIONS_MENU) {
+        while (choix < 1 || choix > menu.options.size()) {
             choix = StringUtils.demanderEntierUtilisateur("une option");
         }
 
         switch (choix) {
             case 1:
-                renverserChaineCaracteres();
+                StringUtils.renverserChaineCaracteres();
+                finModule();
                 return;
             case 2:
                 afficherPyramide();
@@ -83,20 +75,21 @@ public class littleTools {
                 return;
             case 8:
                 StringUtils.analyseTexte();
+                finModule();
                 return;
             case 9:
                 lancerAppBanque();
                 return;
             default:
                 System.out.println("Choisissez un nombre valide");
-                startMenu(true);
+                finModule();
                 return;
         }
 
     }
 
     private static void lancerAppBanque() {
-        AppBanque simBanque = new AppBanque();
+        AppBanque appBanque = new AppBanque();
         finModule();
     }
 
@@ -240,22 +233,13 @@ public class littleTools {
      * termine l'éxécution
      */
     public static void continueGame() {
-        System.out.println("Continuer? Oui pour retourner au menu, une autre chaine pour terminer le programme");
-        Scanner scanner = new Scanner(System.in);
-        if (!"oui".equalsIgnoreCase(scanner.next())) {
-            gameOn = false; // fin du jeu
+        String choix = StringUtils.demanderTexteUtilisateur("vous de revenir au menu?");
+        if (choix.equalsIgnoreCase("")
+                || choix.equalsIgnoreCase("o")
+                || choix.equalsIgnoreCase("oui")) {
+            gameOn = true;
+        } else {
+            gameOn = false;// fin du jeu
         }
-    }
-
-    /**
-     * Affiche une chaine de caracteres que l'utilisateur rentre, retournee
-     */
-    private static void renverserChaineCaracteres() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nRentrez la chaîne de caracteres à retourner (pas d'accent): ");
-        String toReverse = scanner.nextLine(); // on lit l'entrée utilisateur
-        System.out.println("Voici votre chaîne(" + toReverse + ") retournee : "
-                + new StringBuilder(toReverse).reverse().toString() + "\n");
-        finModule();
     }
 }

@@ -102,4 +102,21 @@ public class StringUtils {
         }
         return number;
     }
+
+    public static String demanderTexteUtilisateur(String titreValeur) {
+        System.out.print("\nChoisissez " + titreValeur + " : ");
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
+    }
+
+    /**
+     * Affiche une chaine de caracteres que l'utilisateur rentre, retournee
+     */
+    public static void renverserChaineCaracteres() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\nRentrez la chaîne de caracteres à retourner (pas d'accent): ");
+        String toReverse = scanner.nextLine(); // on lit l'entrée utilisateur
+        System.out.println("Voici votre chaîne(" + toReverse + ") retournee : "
+                + new StringBuilder(toReverse).reverse().toString() + "\n");
+    }
 }
