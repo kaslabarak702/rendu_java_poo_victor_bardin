@@ -119,4 +119,26 @@ public class StringUtils {
         System.out.println("Voici votre chaîne(" + toReverse + ") retournee : "
                 + new StringBuilder(toReverse).reverse().toString() + "\n");
     }
+
+    /**
+     * Sauvegarde une entrée de texte utilisateur dans un fichier dans le dossier
+     * téléchargements de l'utillisateur
+     */
+    public static void sauvegarderTexte() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Entrez le texte à sauvegarder : ");
+        StringUtils.sauvegarderTexte(scanner.nextLine(),
+                System.getProperty("user.home") + "/Downloads/texte_sauvegarde.txt");
+    }
+
+    /**
+     * comte le nombre de mots dans une phrase rentrée dans la console
+     */
+    public static void compterMotsPhraseModule() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\nEntrez le texte dont vous voulez connaitre le nombre de mots : ");
+        // on passe par un tableau de string (on délimite les mots comme des chaines
+        // séparées par des apostrophes et des espaces)
+        StringUtils.compterLesMots(sc.nextLine());
+    }
 }

@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import Banque.AppBanque;
+import EditeurTexte.Word;
 import Utils.Menu;
 import Utils.StringUtils;
 
@@ -41,7 +42,8 @@ public class littleTools {
                 "Compter le nombre de mots dans une phrase",
                 " Sauvegarder une phrase dans un fichier",
                 "Lire du texte d'un fichier pour y compter les mots",
-                "Faire une simulation de banque"));
+                "Faire une simulation de banque",
+                "Ouvrir un éditeur de texte"));
 
         System.out.println(menu.toString());
 
@@ -68,10 +70,12 @@ public class littleTools {
                 nombreJuste();
                 return;
             case 6:
-                compterMotsPhraseModule();
+                StringUtils.compterMotsPhraseModule();
+                finModule();
                 return;
             case 7:
-                sauvegarderTexte();
+                StringUtils.sauvegarderTexte();
+                finModule();
                 return;
             case 8:
                 StringUtils.analyseTexte();
@@ -80,8 +84,13 @@ public class littleTools {
             case 9:
                 lancerAppBanque();
                 return;
+            case 10:
+                Word.launchWord();
+                finModule();
+                return;
+
             default:
-                System.out.println("Choisissez un nombre valide");
+                System.out.println("Option non implémentée");
                 finModule();
                 return;
         }
@@ -90,30 +99,6 @@ public class littleTools {
 
     private static void lancerAppBanque() {
         AppBanque appBanque = new AppBanque();
-        finModule();
-    }
-
-    /**
-     * Sauvegarde une entrée de texte utilisateur dans un fichier dans le dossier
-     * téléchargements de l'utillisateur
-     */
-    private static void sauvegarderTexte() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Entrez le texte à sauvegarder : ");
-        StringUtils.sauvegarderTexte(scanner.nextLine(),
-                System.getProperty("user.home") + "/Downloads/texte_sauvegarde.txt");
-        finModule();
-    }
-
-    /**
-     * comte le nombre de mots dans une phrase rentrée dans la console
-     */
-    private static void compterMotsPhraseModule() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("\nEntrez le texte dont vous voulez connaitre le nombre de mots : ");
-        // on passe par un tableau de string (on délimite les mots comme des chaines
-        // séparées par des apostrophes et des espaces)
-        StringUtils.compterLesMots(sc.nextLine());
         finModule();
     }
 
@@ -190,7 +175,7 @@ public class littleTools {
     }
 
     /**
-     * Calcule une somme de 1 à ?
+     * Calcule une somme de 1 à un chiffre rentré par l'utilisateur
      */
     private static void calculerUneSomme() {
         int borneHaute = StringUtils.demanderEntierUtilisateur("la borne haute");

@@ -15,9 +15,11 @@ public class AppBanque {
     public AppBanque() {
         this.gameOn = true;
         this.menu = new Menu("Bienvenue dans cette micro-simulation de gestion de banques :", new LinkedList<>());
-        menu.options.addAll(Arrays.asList("créer une banque", "créer un client",
-                "rattacher un client à une banque", "consulter la liste des clients d'une banque",
-                "consulter les infos d'un client", "consulter la liste des banques"));
+        menu.options.addAll(Arrays.asList("créer une banque",
+                "créer un client",
+                "consulter la liste des clients d'une banque",
+                "consulter les infos d'un client",
+                "consulter la liste des banques"));
         while (gameOn) {
             menuBanque();
         }

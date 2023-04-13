@@ -9,6 +9,8 @@ public class Banque {
 
     public Banque(String nom) {
         this.nom = nom;
+        this.clients = new ArrayList<Client>();
+        this.comptes = new ArrayList<Compte>();
         this.clients = new ArrayList<>();
     }
 
@@ -51,17 +53,29 @@ public class Banque {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        int index = 0;
         sb.append("Banque: ")
                 .append(nom)
                 .append("\n")
-                .append("Clients:\n");
+                .append("Clients:");
         for (Client client : clients) {
             sb.append(client).append("\n");
+            index++;
         }
-        sb.append("Comptes:\n");
+        if (index == 0) {
+            sb.append(" aucun");
+        }
+        sb.append("\n");
+        index = 0;
+        sb.append("Comptes:");
         for (Compte compte : comptes) {
+            index++;
             sb.append(compte).append("\n");
         }
+        if (index == 0) {
+            sb.append(" aucun");
+        }
+        sb.append("\n");
         return sb.toString();
     }
 }

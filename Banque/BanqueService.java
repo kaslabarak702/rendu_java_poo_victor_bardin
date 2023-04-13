@@ -15,7 +15,7 @@ public class BanqueService {
             System.out.println("Il n'y a pas encore de banque à afficher");
         } else {
             for (Banque banque : banques) {
-                System.out.println(banque);
+                System.out.println(banque.toString());
             }
         }
 
