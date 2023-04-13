@@ -8,6 +8,9 @@ import java.io.InputStreamReader;
 import java.util.Random;
 import java.util.Scanner;
 
+import Banque.AppBanque;
+import Utils.StringUtils;
+
 /**
  * littleTools est une classe de mini outils. Chaque outil est un module, les
  * modules ne s'éxécutent qu'un par un mais peuvent faire appel les uns aux
@@ -18,7 +21,7 @@ import java.util.Scanner;
  */
 public class littleTools {
     private static boolean gameOn = true; // conditionne l'arrêt du programme
-    final static int NOMBRE_OPTIONS_MENU = 8;
+    final static int NOMBRE_OPTIONS_MENU = 9;
 
     public static void main(String[] args) {
         startMenu(gameOn);
@@ -46,13 +49,14 @@ public class littleTools {
                 .append("6 -> Compter le nombre de mots dans une phrase\n")
                 .append("7 -> Sauvegarder une phrase dans un fichier\n")
                 .append("8 -> Lire du texte d'un fichier pour y compter les mots\n")
+                .append("9 -> Faire une simulation de banque\n")
 
                 .append("Entrez le chiffre correspondant à votre choix entre 1 et " + NOMBRE_OPTIONS_MENU + ":");
 
         System.out.println(menu.toString());
         int choix = -1;// le choix utilisateur dans le menu
         while (choix < 1 || choix > NOMBRE_OPTIONS_MENU) {
-            choix = demanderEntierUtilisateur("une option");
+            choix = StringUtils.demanderEntierUtilisateur("une option");
         }
 
         switch (choix) {
@@ -78,7 +82,10 @@ public class littleTools {
                 sauvegarderTexte();
                 return;
             case 8:
-                analyseTexte();
+                StringUtils.analyseTexte();
+                return;
+            case 9:
+                lancerAppBanque();
                 return;
             default:
                 System.out.println("Choisissez un nombre valide");
@@ -88,44 +95,9 @@ public class littleTools {
 
     }
 
-    /**
-     * Ouvre un fichier dont le chemin est précisé par un input console, l'ouvre et
-     * lit son contenu, utilise compterMotsPhraseModule pour alanyser le string
-     * qu'est le
-     * texte, gestion des exceptions incluse
-     * 
-     * @see compterMotsPhraseModule
-     */
-    private static void analyseTexte() {
-        Scanner scanner = new Scanner(System.in);
-
-        // Demande à l'utilisateur le chemin du fichier à ouvrir
-        System.out.println("Entrez le chemin du fichier à analyser :");
-        String cheminFichier = scanner.nextLine();
-
-        try {
-            // Ouvre le fichier
-            File fichier = new File(cheminFichier);
-            BufferedReader lecteur = new BufferedReader(new InputStreamReader(new FileInputStream(fichier)));
-
-            // Lit le contenu du fichier et stocke le texte dans une chaîne de caractères
-            // via un StringBuilder
-            StringBuilder texte = new StringBuilder();
-            String ligne = lecteur.readLine();
-            while (ligne != null) {
-                texte.append(ligne);
-                ligne = lecteur.readLine();
-            }
-            lecteur.close();
-
-            // Analyse le texte en comptant les mots
-            compterLesMots(texte.toString());
-
-        } catch (FileNotFoundException e) {
-            System.out.println("Fichier introuvable ");
-        } catch (IOException e) {
-            System.out.println("Erreur de lecture de fichier");
-        }
+    private static void lancerAppBanque() {
+        AppBanque simBanque = new AppBanque();
+        finModule();
     }
 
     /**
@@ -135,26 +107,9 @@ public class littleTools {
     private static void sauvegarderTexte() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Entrez le texte à sauvegarder : ");
-        sauvegarderTexte(scanner.nextLine(), System.getProperty("user.home") + "/Downloads/texte_sauvegarde.txt");
+        StringUtils.sauvegarderTexte(scanner.nextLine(),
+                System.getProperty("user.home") + "/Downloads/texte_sauvegarde.txt");
         finModule();
-    }
-
-    /**
-     * Sauvegarde une entrée de texte utilisateur dans un fichier dans le dossier
-     * téléchargements de l'utilisateur
-     * 
-     * @param texte  le texte à sauvegarder
-     * @param chemin le chemin du fichier dans lequel texte est sauvegardé
-     */
-    private static void sauvegarderTexte(String texte, String chemin) {
-        try {
-            FileWriter writer = new FileWriter(chemin);
-            writer.write(texte);
-            writer.close();
-            System.out.println("Le texte a été sauvegardé dans le fichier : " + chemin);
-        } catch (IOException e) {
-            System.out.println("Une erreur est survenue lors de la sauvegarde du texte : " + e.getMessage());
-        }
     }
 
     /**
@@ -165,17 +120,8 @@ public class littleTools {
         System.out.println("\nEntrez le texte dont vous voulez connaitre le nombre de mots : ");
         // on passe par un tableau de string (on délimite les mots comme des chaines
         // séparées par des apostrophes et des espaces)
-        compterLesMots(sc.nextLine());
+        StringUtils.compterLesMots(sc.nextLine());
         finModule();
-    }
-
-    /**
-     * comte le nombre de mots dans une phrase en paramètre
-     * 
-     * @param texte analysé
-     */
-    private static void compterLesMots(String texte) {
-        System.out.println("Ce texte contient " + texte.split("[\\s']+").length + " mots\n");
     }
 
     /**
@@ -183,12 +129,12 @@ public class littleTools {
      */
     private static void nombreJuste() {
         int tentative = 0; // le nombre de tentatives effectives
-        int nombreEssais = demanderEntierUtilisateur("le nombre d'essais"); // le nombre de tentatives max
+        int nombreEssais = StringUtils.demanderEntierUtilisateur("le nombre d'essais"); // le nombre de tentatives max
         boolean found = false;
         System.out.println("Bienvenue dans Complète Nombre Juste! Vous avez " + nombreEssais + " essais");
 
         // choix de la borne max
-        int max = demanderEntierUtilisateur("la difficulté");
+        int max = StringUtils.demanderEntierUtilisateur("la difficulté");
         int nombreAleatoire = (int) (Math.random() * max);
 
         // début du jeu
@@ -197,7 +143,7 @@ public class littleTools {
 
         while (tentative < nombreEssais && !found) {
             System.out.print("Tentative n°" + (tentative + 1) + ": ");
-            int nombreDevine = demanderEntierUtilisateur("un nombre");
+            int nombreDevine = StringUtils.demanderEntierUtilisateur("un nombre");
 
             if (nombreDevine == nombreAleatoire) {
                 System.out.println("Félicitations, vous avez deviné le nombre!");
@@ -221,7 +167,7 @@ public class littleTools {
      * @see demanderEntierUtilisateur
      */
     private static void pairImpairPremier() {
-        int nombre = demanderEntierUtilisateur("un nombre");
+        int nombre = StringUtils.demanderEntierUtilisateur("un nombre");
         if (nombre % 2 == 0) {
             System.out.println(nombre + " est pair"); // aucun nombre pair n'est premier
         } else {
@@ -254,36 +200,10 @@ public class littleTools {
      * Calcule une somme de 1 à ?
      */
     private static void calculerUneSomme() {
-        int borneHaute = demanderEntierUtilisateur("la borne haute");
+        int borneHaute = StringUtils.demanderEntierUtilisateur("la borne haute");
         int somme = borneHaute * (borneHaute + 1) / 2; // la somme des premiers entiers
         System.out.println("La somme des nombres de 1 à " + borneHaute + " est : " + somme); // résultat
         finModule();
-    }
-
-    /**
-     * demande un nombre entier a l'utilisateur, vérifie que l'input correspond bien
-     * à un entier positif, et redemande un input jusqu'au succès
-     * 
-     * @see demanderEntierUtilisateur
-     * 
-     * @param titreValeur la valeur a demander (ex "la hauteur")
-     * @return l'entier vérifié
-     */
-    public static int demanderEntierUtilisateur(String titreValeur) {
-        System.out.print("\nChoisissez " + titreValeur + ", valeur entière et positive : ");
-        boolean validNumber = false;
-        Scanner scanner = new Scanner(System.in);
-        int number = -1;
-
-        while (!validNumber && number < 0) {
-            try {
-                number = Integer.parseInt(scanner.next());
-                validNumber = true;
-            } catch (Exception e) {
-                System.out.println("Entrez un nombre entier valide : "); // gestion des erreurs utilisateur
-            }
-        }
-        return number;
     }
 
     /**
@@ -293,7 +213,7 @@ public class littleTools {
         int hauteur = 1; // hauteur de la pyramide en nombre de lignes
         Random r = new Random(); // on génère aléatoirement des caractères
         System.out.println("Quelle hauteur de pyramide souhaitez vous?");
-        hauteur = demanderEntierUtilisateur("une hauteur valide") + 1;
+        hauteur = StringUtils.demanderEntierUtilisateur("une hauteur valide") + 1;
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < (hauteur - i) - 1; j++) {
                 System.out.print(" ");
