@@ -1,4 +1,4 @@
-package Banque;
+package src.Modules.SimulationBanque;
 
 public class ClientEntreprise extends Client {
     private int numeroEntreprise;

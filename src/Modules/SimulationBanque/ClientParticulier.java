@@ -1,4 +1,4 @@
-package Banque;
+package src.Modules.SimulationBanque;
 
 public class ClientParticulier extends Client {
     private String profession;

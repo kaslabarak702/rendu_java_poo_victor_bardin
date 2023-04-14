@@ -1,10 +1,10 @@
-package Banque;
+package src.Modules.SimulationBanque;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 
-import Utils.Menu;
-import Utils.StringUtils;
+import src.Utils.Menu;
+import src.Utils.StringUtils;
 
 public class BanqueService {
 
@@ -13,7 +13,7 @@ public class BanqueService {
      * 
      * @param appBanque
      */
-    public static void ajouterBanque(AppBanque appBanque) {
+    public static void ajouterBanque(SimulationBanque appBanque) {
         appBanque.banques.add(new Banque(StringUtils.demanderTexteUtilisateur("un nom de banque", true)));
     }
 
@@ -32,19 +32,23 @@ public class BanqueService {
         }
     }
 
-    public static void ajouterClient(AppBanque appBanque) {
+    /**
+     * Permet d'ajouter un client à une banque précise choisie par l'utilisateur à
+     * l'éxécution de la méthode
+     * 
+     * @param appBanque l'instance de l'application Banque dans laquelle on veut
+     *                  ajouter le client
+     */
+    public static void ajouterClient(SimulationBanque appBanque) {
+
+        Banque banque;
         if (appBanque.banques.isEmpty()) {
             System.out.print("Il n'y a pas encore de banque. Créez une banque");
             return;
+        } else {
+            banque = choixBanque(appBanque.banques);
         }
         LinkedList<String> options = new LinkedList<String>();
-        for (Banque banque : appBanque.banques) {
-            options.add(banque.getNom());
-        }
-        Menu choixBanque = new Menu("Choisisez la banque à laquelle vous voulez assigner un nouveau client : ",
-                options);
-        System.out.print(choixBanque);
-        int banque = choixBanque.choix() - 1;
 
         options = new LinkedList<String>();
         options.add("Particulier");
@@ -76,11 +80,11 @@ public class BanqueService {
                 break;
         }
 
-        appBanque.banques.get(banque).clients.add(nouveauClient);
+        banque.clients.add(nouveauClient);
 
     }
 
-    public static boolean serializeAllDataToJsonCSV(AppBanque appBanque) {
+    public static boolean serializeAllDataToJson(SimulationBanque appBanque) {
         System.out.println("Début de l'extraction json -> csv...");
         StringBuilder sb = new StringBuilder();
         sb.append("[");
@@ -116,7 +120,7 @@ public class BanqueService {
         return true;
     }
 
-    public static void demo(AppBanque appBanque) {
+    public static void demo(SimulationBanque appBanque) {
         System.out.print("\nComptes de démonstration en cours de déploiment...");
         Banque banque1 = new Banque("Bnp Paribas");
         Banque banque2 = new Banque("Crédit du nord");
@@ -183,6 +187,7 @@ public class BanqueService {
             options.add(client.toString());
         }
         Menu choixClient = new Menu("Choisissez un client : ", options);
+        System.out.println(choixClient);
         return banque.clients.get(choixClient.choix() - 1);
     }
 
@@ -193,5 +198,12 @@ public class BanqueService {
         }
         Menu choixCcomtpe = new Menu("Choisissez un compte : ", options);
         return banque.comptes.get(choixCcomtpe.choix() - 1);
+    }
+
+    public static void ajouterCompte(LinkedList<Banque> banques) {
+        Banque banque = choixBanque(banques);
+        banque.comptes.add(new Compte(choixClient(banque)));
+        banque.comptes.getLast().crediter(StringUtils.demanderEntierUtilisateur("le versement initial", true));
+        System.out.println("Le client a bien été ajouté");
     }
 }

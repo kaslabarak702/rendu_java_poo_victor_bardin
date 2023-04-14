@@ -1,4 +1,4 @@
-package Utils;
+package src.Utils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -101,7 +101,7 @@ public class StringUtils {
                 number = Integer.parseInt(scanner.next());
                 validNumber = true;
             } catch (Exception e) {
-                // System.out.print("\nEntrez un nombre entier valide : "); // gestion des
+                System.out.print("Entrez un nombre entier valide : "); // gestion des
                 // erreurs utilisateur
             }
         }

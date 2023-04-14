@@ -1,4 +1,4 @@
-package Banque;
+package src.Modules.SimulationBanque;
 
 import java.util.UUID;
 

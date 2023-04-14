@@ -1,4 +1,4 @@
-package Banque;
+package src.Modules.SimulationBanque;
 
 import java.util.UUID;
 
@@ -39,19 +39,19 @@ public class Client {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("nom: ").append(nom).append(", ");
-        sb.append("adresse: ").append(adresse).append(", ");
-        sb.append("email: ").append(email).append(", ");
+        sb.append("nom: ").append(nom).append("\n");
+        sb.append("    adresse: ").append(adresse).append("\n ");
+        sb.append("    email: ").append(email).append("\n ");
 
         if (this instanceof ClientParticulier) {
             ClientParticulier cp = (ClientParticulier) this;
-            sb.append("prenom: ").append(cp.getPrenom()).append(", ");
-            sb.append("profession: ").append(cp.getProfession()).append(", ");
-            sb.append("salaire: ").append(cp.getSalaire());
+            sb.append("    prenom: ").append(cp.getPrenom()).append("\n ");
+            sb.append("    profession: ").append(cp.getProfession()).append("\n ");
+            sb.append("    salaire: ").append(cp.getSalaire());
         } else {
             ClientEntreprise ce = (ClientEntreprise) this;
-            sb.append("numeroEntreprise: ").append(ce.getNumeroEntreprise()).append(", ");
-            sb.append("secteurActivite: ").append(ce.getSecteurActivite());
+            sb.append("    numeroEntreprise: ").append(ce.getNumeroEntreprise()).append("\n ");
+            sb.append("    secteurActivite: ").append(ce.getSecteurActivite());
         }
 
         return sb.toString();

@@ -1,4 +1,4 @@
-package EditeurTexte;
+package src.Modules.EditeurTexte;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -7,15 +7,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+/**
+ * Classe Word : implémente un éditeur de texte simple avec les fonctions de
+ * base : nouveau fichier, ouvrir un fichier
+ * et sauvegarder un fichier.
+ */
 public class Word extends JFrame implements ActionListener {
 
     private JTextArea textArea;
@@ -27,6 +26,10 @@ public class Word extends JFrame implements ActionListener {
     private JFileChooser fileChooser;
     private String fileName;
 
+    /**
+     * Constructeur de la classe Word. Il initialise l'interface utilisateur de
+     * l'éditeur de texte.
+     */
     public Word() {
         // Layout général
         super("Word - Nouveau fichier");
@@ -66,12 +69,17 @@ public class Word extends JFrame implements ActionListener {
 
         // assistant fichiers
         fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Fichiers texte (*.txt)", "txt"));
 
         // affichage de la fenetre
         setVisible(true);
     }
 
-    // gestion de tous les événements de la fenetres
+    /**
+     * Méthode qui gère les événements de l'interface
+     *
+     * @param event événement déclenché
+     */
     public void actionPerformed(ActionEvent event) {
         if (event.getSource() == nouveauFichier) {
             textArea.setText("");
@@ -95,7 +103,7 @@ public class Word extends JFrame implements ActionListener {
             }
         } else if (event.getSource() == sauverFichier) {
             try {
-                java.io.FileWriter fw = new FileWriter(fileName);
+                FileWriter fw = new FileWriter(fileName);
                 textArea.write(fw);
                 fw.close();
             } catch (Exception e) {
@@ -106,7 +114,12 @@ public class Word extends JFrame implements ActionListener {
         }
     }
 
-    public static void launchWord() {
+    /**
+     * Méthode statique pour lancer l'éditeur de texte depuis mainToolBox
+     * 
+     * @see mainToolBox
+     */
+    public static void lancerWord() {
         new Word();
     }
 }

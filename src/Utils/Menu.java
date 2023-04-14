@@ -1,4 +1,4 @@
-package Utils;
+package src.Utils;
 
 import java.util.LinkedList;
 
@@ -27,7 +27,6 @@ public class Menu {
             index++;
             sb.append(index + " -> " + option + " \n");
         }
-        sb.append("Entrez le chiffre correspondant à votre choix entre 1 et " + index + " : ");
         return sb.toString();
     }
 
@@ -40,7 +39,8 @@ public class Menu {
     public int choix() {
         int choix = -1;// le choix utilisateur dans le menu
         while (choix < 1 || choix > this.options.size()) {
-            choix = StringUtils.demanderEntierUtilisateur("", false);
+            choix = StringUtils.demanderEntierUtilisateur(
+                    "Entrez le chiffre correspondant à votre choix entre 1 et " + this.options.size() + " : ", false);
         }
         return choix;
     }

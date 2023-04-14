@@ -1,11 +1,13 @@
+package src;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Random;
 
-import Banque.AppBanque;
-import EditeurTexte.Word;
-import Utils.Menu;
-import Utils.StringUtils;
+import src.Modules.EditeurTexte.Word;
+import src.Modules.SimulationBanque.SimulationBanque;
+import src.Utils.Menu;
+import src.Utils.StringUtils;
 
 /**
  * littleTools est une classe de mini outils. Chaque outil est un module, les
@@ -13,10 +15,12 @@ import Utils.StringUtils;
  * autres. Pour exécuter un module, choisissez le dans le menu, à l'éxécution.
  * 
  * @author Victor BARDIN
- * @version 1.4
+ * @version 1.0.13
+ * @see StringUtils, Word, SimulationBanque
  */
-public class littleTools {
+public class mainToolBox {
     private static boolean gameOn = true; // conditionne l'arrêt du programme
+    private static Menu menuPrincipal;
 
     public static void main(String[] args) {
         startMenu(gameOn);
@@ -32,8 +36,8 @@ public class littleTools {
         }
 
         // affichage du menu
-        Menu menu = new Menu("Bonjour ! Que souhaitez-vous faire ?", new LinkedList<>());
-        menu.options.addAll(Arrays.asList(
+        menuPrincipal = new Menu("Bonjour ! Que souhaitez-vous faire ?", new LinkedList<>());
+        menuPrincipal.options.addAll(Arrays.asList(
                 " Renverser une chaîne de caractères",
                 " Afficher une pyramide",
                 " Calculer la somme des nombres de 1 à x",
@@ -45,65 +49,70 @@ public class littleTools {
                 " Faire une simulation de banque",
                 "Ouvrir un éditeur de texte"));
 
-        System.out.print(menu.toString());
-        switch (menu.choix()) {
+        System.out.print(menuPrincipal.toString());
+        try {
+            switch (menuPrincipal.choix()) {
+                case 1:
+                    StringUtils.renverserChaineCaracteres();
+                    finModule();
+                    return;
 
-            case 1:
-                StringUtils.renverserChaineCaracteres();
-                finModule();
-                return;
+                case 2:
+                    afficherPyramide();
+                    return;
 
-            case 2:
-                afficherPyramide();
-                return;
+                case 3:
+                    calculerUneSomme();
+                    return;
 
-            case 3:
-                calculerUneSomme();
-                return;
+                case 4:
+                    pairImpairPremier();
+                    return;
 
-            case 4:
-                pairImpairPremier();
-                return;
+                case 5:
+                    nombreJuste();
+                    return;
 
-            case 5:
-                nombreJuste();
-                return;
+                case 6:
+                    StringUtils.compterMotsPhraseModule();
+                    finModule();
+                    return;
 
-            case 6:
-                StringUtils.compterMotsPhraseModule();
-                finModule();
-                return;
+                case 7:
+                    StringUtils.sauvegarderTexte();
+                    finModule();
+                    return;
 
-            case 7:
-                StringUtils.sauvegarderTexte();
-                finModule();
-                return;
+                case 8:
+                    StringUtils.analyseTexte();
+                    finModule();
+                    return;
 
-            case 8:
-                StringUtils.analyseTexte();
-                finModule();
-                return;
+                case 9:
+                    lancerAppBanque();
+                    return;
 
-            case 9:
-                lancerAppBanque();
-                return;
+                case 10:
+                    Word.lancerWord();
+                    finModule();
+                    return;
 
-            case 10:
-                Word.launchWord();
-                finModule();
-                return;
-
-            default:
-                System.out.println("Option non implémentée");
-                finModule();
-                return;
+                default:
+                    System.out.println("Option non implémentée");
+                    finModule();
+                    return;
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur à l'éxécution du module");
+            finModule();
+            startMenu(true);
         }
-
     }
 
     private static void lancerAppBanque() {
-        AppBanque appBanque = new AppBanque();
+        SimulationBanque.lancerSimulationBanque();
         finModule();
+        menuPrincipal.choix();
     }
 
     /**
@@ -233,7 +242,7 @@ public class littleTools {
      * termine l'éxécution
      */
     public static void continueGame() {
-        String choix = StringUtils.demanderTexteUtilisateur("vous de revenir au menu?", true);
+        String choix = StringUtils.demanderTexteUtilisateur("Revenir au menu? (\"oui\"/\"o\"/\"\" OU non) : ", false);
         if (choix.equalsIgnoreCase("")
                 || choix.equalsIgnoreCase("o")
                 || choix.equalsIgnoreCase("oui")) {
