@@ -47,37 +47,47 @@ public class littleTools {
 
         System.out.print(menu.toString());
         switch (menu.choix()) {
+
             case 1:
                 StringUtils.renverserChaineCaracteres();
                 finModule();
                 return;
+
             case 2:
                 afficherPyramide();
                 return;
+
             case 3:
                 calculerUneSomme();
                 return;
+
             case 4:
                 pairImpairPremier();
                 return;
+
             case 5:
                 nombreJuste();
                 return;
+
             case 6:
                 StringUtils.compterMotsPhraseModule();
                 finModule();
                 return;
+
             case 7:
                 StringUtils.sauvegarderTexte();
                 finModule();
                 return;
+
             case 8:
                 StringUtils.analyseTexte();
                 finModule();
                 return;
+
             case 9:
                 lancerAppBanque();
                 return;
+
             case 10:
                 Word.launchWord();
                 finModule();
@@ -200,7 +210,7 @@ public class littleTools {
                 }
             } else {
                 for (int k = 1; k <= 2 * i - 1; k++) {
-                    System.out.print("*+");
+                    System.out.print("*");
                 }
             }
             System.out.println();

@@ -144,4 +144,54 @@ public class BanqueService {
 
     }
 
+    public static void afficherListeClients(LinkedList<Banque> banques) {
+        System.out.println(choixBanque(banques).getClients().toString());
+    }
+
+    public static void creditDebit(LinkedList<Banque> banques, int creditDebit) {
+        Compte compte = choixCompte(choixBanque(banques));
+        switch (creditDebit) {
+            case 1:
+                compte.crediter(StringUtils.demanderEntierUtilisateur("un montant à créditer", true));
+                return;
+            case 2:
+                compte.debiter(StringUtils.demanderEntierUtilisateur("un montant à débiter", true));
+                return;
+        }
+    }
+
+    /**
+     * 
+     * @param banques
+     * @return la banque choisie par l'utilisateur de la banque dans la liste de
+     *         banques passée en paramètre
+     */
+    public static Banque choixBanque(LinkedList<Banque> banques) {
+        LinkedList<String> options = new LinkedList<String>();
+        for (Banque banque : banques) {
+            options.add(banque.getNom());
+        }
+        Menu menu = new Menu("Choisissez la banque :", options);
+        System.out.print(menu.toString());
+        return banques.get(menu.choix() - 1);
+
+    }
+
+    public static Client choixClient(Banque banque) {
+        LinkedList<String> options = new LinkedList<>();
+        for (Client client : banque.clients) {
+            options.add(client.toString());
+        }
+        Menu choixClient = new Menu("Choisissez un client : ", options);
+        return banque.clients.get(choixClient.choix() - 1);
+    }
+
+    public static Compte choixCompte(Banque banque) {
+        LinkedList<String> options = new LinkedList<>();
+        for (Compte compte : banque.comptes) {
+            options.add(compte.toString());
+        }
+        Menu choixCcomtpe = new Menu("Choisissez un compte : ", options);
+        return banque.comptes.get(choixCcomtpe.choix() - 1);
+    }
 }

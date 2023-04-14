@@ -6,7 +6,7 @@ import java.util.LinkedList;
 public class Banque {
     private String nom;
     ArrayList<Client> clients;
-    private ArrayList<Compte> comptes;
+    ArrayList<Compte> comptes;
 
     public Banque(String nom) {
         this.nom = nom;
