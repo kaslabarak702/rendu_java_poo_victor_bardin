@@ -84,42 +84,62 @@ public class BanqueService {
 
     }
 
+    /**
+     * <h3>Ecrit un fichier JSON dans lequel sont extrait toutes les données :</h3>
+     * <ul>
+     * <li>tous les comptes</li>
+     * <li>tous les clients</li>
+     * <li>tous les comptes (et clients liés)</li>
+     * </ul>
+     * 
+     * @param appBanque l'instance d'appli de banque concernée
+     * @return true en cas de succes
+     */
     public static boolean serializeAllDataToJson(SimulationBanque appBanque) {
-        System.out.println("Début de l'extraction json -> csv...");
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        for (int i = 0; i < appBanque.banques.size(); i++) {
-            Banque banque = appBanque.banques.get(i);
-            sb.append("{")
-                    .append("\"banque\": \"").append(banque.getNom()).append("\",")
-                    .append("\"clients\": [");
-            for (int j = 0; j < banque.getClients().size(); j++) {
-                sb.append(banque.getClients().get(j).toJSON(false));
-                if (j < banque.getClients().size() - 1) {
+        try {
+            System.out.println("Début de l'extraction json -> csv...");
+            StringBuilder sb = new StringBuilder();
+            sb.append("[");
+            for (int i = 0; i < appBanque.banques.size(); i++) {
+                Banque banque = appBanque.banques.get(i);
+                sb.append("{")
+                        .append("\"banque\": \"").append(banque.getNom()).append("\",")
+                        .append("\"clients\": [");
+                for (int j = 0; j < banque.getClients().size(); j++) {
+                    sb.append(banque.getClients().get(j).toJSON(false));
+                    if (j < banque.getClients().size() - 1) {
+                        sb.append(",");
+                    }
+                }
+                sb.append("],")
+                        .append("\"comptes\": [");
+                for (int j = 0; j < appBanque.banques.get(i).getComptes().size(); j++) {
+                    sb.append(appBanque.banques.get(i).getComptes().get(j).toJSON());
+                    if (j < appBanque.banques.get(i).getComptes().size() - 1) {
+                        sb.append(",");
+                    }
+                }
+                sb.append("]}");
+                if (i < appBanque.banques.size() - 1) {
                     sb.append(",");
                 }
             }
-            sb.append("],")
-                    .append("\"comptes\": [");
-            for (int j = 0; j < appBanque.banques.get(i).getComptes().size(); j++) {
-                sb.append(appBanque.banques.get(i).getComptes().get(j).toJSON());
-                if (j < appBanque.banques.get(i).getComptes().size() - 1) {
-                    sb.append(",");
-                }
-            }
-            sb.append("]}");
-            if (i < appBanque.banques.size() - 1) {
-                sb.append(",");
-            }
+            sb.append("]");
+            System.out.print("\nEnregistrement... ");
+            StringUtils.sauvegarderTexte(sb.toString(),
+                    System.getProperty("user.home") + "/Downloads/donnesjson.json");
+            return true;
+        } catch (Exception e) {
+            System.out.println("il y a eu un problème pendant l'export");
+            return false;
         }
-        sb.append("]");
-        System.out.print("\nEnregistrement... ");
-        StringUtils.sauvegarderTexte(sb.toString(),
-                System.getProperty("user.home") + "/Downloads/donnesjson.json");
-
-        return true;
     }
 
+    /**
+     * Remplit
+     * 
+     * @param appBanque
+     */
     public static void demo(SimulationBanque appBanque) {
         System.out.print("\nComptes de démonstration en cours de déploiment...");
         Banque banque1 = new Banque("Bnp Paribas");
