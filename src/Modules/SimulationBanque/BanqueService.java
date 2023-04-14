@@ -9,6 +9,16 @@ import src.Utils.StringUtils;
 public class BanqueService {
 
     /**
+     * permet l'instanciation du service, déconseillé
+     * 
+     * @deprecated
+     */
+    @Deprecated
+    private BanqueService() {
+        // rien à initialiser à l'instanciation du Service
+    }
+
+    /**
      * Ajoute une banque dans une instance de la micro-appli appBanque
      * 
      * @param appBanque
@@ -49,8 +59,6 @@ public class BanqueService {
             banque = choixBanque(appBanque.banques);
         }
         LinkedList<String> options = new LinkedList<String>();
-
-        options = new LinkedList<String>();
         options.add("Particulier");
         options.add("Entreprise");
         Menu choixTypeClient = new Menu("Choisissez le type de client",
@@ -78,10 +86,11 @@ public class BanqueService {
                         StringUtils.demanderTexteUtilisateur("le secteur d'activité", true),
                         StringUtils.demanderTexteUtilisateur("le mail de l'entreprise", true));
                 break;
+            default:
+                return;
         }
 
         banque.clients.add(nouveauClient);
-
     }
 
     /**
@@ -136,7 +145,7 @@ public class BanqueService {
     }
 
     /**
-     * Remplit
+     * Remplit l'envuronnement de quelques banques, clients, comptes
      * 
      * @param appBanque
      */
@@ -180,6 +189,8 @@ public class BanqueService {
                 return;
             case 2:
                 compte.debiter(StringUtils.demanderEntierUtilisateur("un montant à débiter", true));
+                return;
+            default:
                 return;
         }
     }

@@ -10,7 +10,7 @@ import src.Utils.Menu;
 import src.Utils.StringUtils;
 
 /**
- * littleTools est une classe de mini outils. Chaque outil est un module, les
+ * MainToolBox est une classe de mini outils. Chaque outil est un module, les
  * modules ne s'éxécutent qu'un par un mais peuvent faire appel les uns aux
  * autres. Pour exécuter un module, choisissez le dans le menu, à l'éxécution.
  * 
@@ -18,16 +18,17 @@ import src.Utils.StringUtils;
  * @version 1.0.13
  * @see StringUtils, Word, SimulationBanque
  */
-public class mainToolBox {
+public class MainToolBox {
     private static boolean gameOn = true; // conditionne l'arrêt du programme
     private static Menu menuPrincipal;
+    private static Random randomise = new Random();
 
     public static void main(String[] args) {
         startMenu(gameOn);
     }
 
     /**
-     * Menu du programme little tools
+     * Menu du programme MainToolBox
      */
     private static void startMenu(boolean gameOn) {
         if (!gameOn) {
@@ -126,7 +127,7 @@ public class mainToolBox {
 
         // choix de la borne max
         int max = StringUtils.demanderEntierUtilisateur("la difficulté", true);
-        int nombreAleatoire = (int) (Math.random() * max);
+        int nombreAleatoire = randomise.nextInt(max);
 
         // début du jeu
         System.out.println("Bienvenue dans Complète Nombre Juste! Vous avez " + nombreEssais + " essais");
@@ -206,7 +207,7 @@ public class mainToolBox {
     private static void afficherPyramide() {
         int hauteur = 1; // hauteur de la pyramide en nombre de lignes
         double probaGuirlande = 0.33; // probabilité qu'une guirlande apparaisse
-        Random r = new Random(); // on génère aléatoirement des caractères
+        randomise = new Random(); // on génère aléatoirement des caractères
         System.out.println("Quelle hauteur de pyramide souhaitez vous?");
         hauteur = StringUtils.demanderEntierUtilisateur("une hauteur valide", true) + 1;
         for (int i = 0; i < hauteur; i++) {
@@ -215,7 +216,7 @@ public class mainToolBox {
             }
             if (Math.random() > probaGuirlande) {
                 for (int k = 1; k <= 2 * i - 1; k++) {
-                    System.out.print((char) (r.nextInt(26) + 'a'));
+                    System.out.print((char) (randomise.nextInt(26) + 'a'));
                 }
             } else {
                 for (int k = 1; k <= 2 * i - 1; k++) {

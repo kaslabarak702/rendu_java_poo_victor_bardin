@@ -18,7 +18,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Word extends JFrame implements ActionListener {
 
     private JTextArea textArea;
-    private JMenuBar menuBar;
+    private JMenuBar barreMenu;
     private JMenu fileMenu;
     private JMenuItem nouveauFichier,
             ouvrirFichier,
@@ -45,7 +45,7 @@ public class Word extends JFrame implements ActionListener {
         add(scrollPane, BorderLayout.CENTER);
 
         // la barre de menus
-        menuBar = new JMenuBar();
+        barreMenu = new JMenuBar();
         fileMenu = new JMenu("Fichier");
 
         // bouton pour créer un nouvau fichier vierge
@@ -64,8 +64,8 @@ public class Word extends JFrame implements ActionListener {
         fileMenu.add(sauverFichier);
 
         // On ajoute la barre au menu
-        menuBar.add(fileMenu);
-        setJMenuBar(menuBar);
+        barreMenu.add(fileMenu);
+        setJMenuBar(barreMenu);
 
         // assistant fichiers
         fileChooser = new JFileChooser();

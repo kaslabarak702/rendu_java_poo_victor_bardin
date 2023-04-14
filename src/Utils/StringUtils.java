@@ -10,6 +10,16 @@ import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class StringUtils {
+
+    /**
+     * permet d'instancier les Utils
+     * 
+     * @Deprecated
+     */
+    private StringUtils() {
+        // Rien a initialiser au démarage de StringUtils
+    }
+
     /**
      * Ouvre un fichier dont le chemin est précisé par un input console, l'ouvre et
      * lit son contenu, utilise compterMotsPhraseModule pour alanyser le string
@@ -56,6 +66,8 @@ public class StringUtils {
      * @param texte analysé
      */
     public static void compterLesMots(String texte) {
+        // on passe par un tableau de string (on délimite les mots comme des chaines
+        // séparées par des apostrophes et des espaces)
         System.out.println("Ce texte contient " + texte.split("[\\s']+").length + " mots\n");
     }
 
@@ -72,6 +84,7 @@ public class StringUtils {
             writer.write(texte);
             writer.close();
             System.out.println("Le texte a été sauvegardé dans le fichier : " + chemin);
+            writer.close();
         } catch (IOException e) {
             System.out.println("Une erreur est survenue lors de la sauvegarde du texte : " + e.getMessage());
         }
@@ -105,9 +118,19 @@ public class StringUtils {
                 // erreurs utilisateur
             }
         }
+        scanner.close();
         return number;
     }
 
+    /**
+     * Demande une entrée console de texte par l'utilisateur
+     * 
+     * @param titreValeur   ce que représente le texte demandé, ou si messageDefault
+     *                      vaut false, la question posée à l'utilisateur avant
+     *                      d'attendre une entrée console
+     * @param messageDefaut un pattern générique de phrase
+     * @return l'entrée utilisateur (premiere ligne)
+     */
     public static String demanderTexteUtilisateur(String titreValeur, boolean messageDefaut) {
         if (messageDefaut) {
             System.out.print("Choisissez " + titreValeur + " : ");
@@ -115,7 +138,9 @@ public class StringUtils {
             System.out.print(titreValeur);
         }
         Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
+        String texte = scanner.nextLine();
+        scanner.close();
+        return texte;
     }
 
     /**
@@ -127,6 +152,8 @@ public class StringUtils {
         String toReverse = scanner.nextLine(); // on lit l'entrée utilisateur
         System.out.println("Voici votre chaîne(" + toReverse + ") retournee : "
                 + new StringBuilder(toReverse).reverse().toString() + "\n");
+        scanner.close();
+
     }
 
     /**
@@ -138,6 +165,7 @@ public class StringUtils {
         System.out.print("Entrez le texte à sauvegarder : ");
         StringUtils.sauvegarderTexte(scanner.nextLine(),
                 System.getProperty("user.home") + "/Downloads/texte_sauvegarde.txt");
+        scanner.close();
     }
 
     /**
@@ -146,8 +174,7 @@ public class StringUtils {
     public static void compterMotsPhraseModule() {
         Scanner sc = new Scanner(System.in);
         System.out.println("\nEntrez le texte dont vous voulez connaitre le nombre de mots : ");
-        // on passe par un tableau de string (on délimite les mots comme des chaines
-        // séparées par des apostrophes et des espaces)
         StringUtils.compterLesMots(sc.nextLine());
+        sc.close();
     }
 }
